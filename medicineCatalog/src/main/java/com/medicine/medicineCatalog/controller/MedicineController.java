@@ -1,6 +1,5 @@
 package com.medicine.medicineCatalog.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,25 +17,32 @@ public class MedicineController {
     @Autowired
     private MedicineService medicineService;
 
-    @GetMapping
+    @GetMapping("/get-cat-{category}")
+    public ResponseEntity<List<Medicine>> getMedicinesByCategory(@PathVariable String category) {
+        List<Medicine> medicines = medicineService.getMedicinesByCategory(category);
+        return ResponseEntity.ok(medicines);
+    }
+
+    @GetMapping("/get-all")
     public List<Medicine> listMedicines() {
         return medicineService.listAll();
     }
 
-    @PostMapping
+    @PostMapping("/add-medicine")
     public void addMedicine(@RequestBody Medicine medicine) {
         medicineService.save(medicine);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get-medicine-{id}")
     public Medicine getMedicine(@PathVariable Long id) {
-        return medicineService.get(id).orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id " + id));
+        return medicineService.get(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id " + id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update-medicine-{id}")
     public ResponseEntity<Medicine> updateMedicine(@PathVariable Long id, @RequestBody Medicine medicineDetails) {
         Medicine medicine = medicineService.get(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id: " + id));
 
         medicine.setName(medicineDetails.getName());
         medicine.setDescription(medicineDetails.getDescription());
@@ -45,10 +51,10 @@ public class MedicineController {
         return ResponseEntity.ok(updatedMedicine);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete-medicine-{id}")
     public ResponseEntity<?> deleteMedicine(@PathVariable Long id) {
         Medicine medicine = medicineService.get(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id: " + id));
 
         medicineService.delete(id);
         return ResponseEntity.ok().build();

@@ -1,8 +1,5 @@
 package com.medicine.medicineCatalog.service;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,10 @@ public class MedicineService {
     @Autowired
     private MedicineRepository medicineRepository;
 
+    public List<Medicine> getMedicinesByCategory(String category) {
+        return medicineRepository.findByCategory(category);
+    }
+
     public Optional<Medicine> get(Long id) {
         return medicineRepository.findById(id);
     }
@@ -32,9 +33,8 @@ public class MedicineService {
     public void delete(Long id) {
         medicineRepository.deleteById(id);
     }
-    
-    public List<Medicine> listAll(){
-    	return medicineRepository.findAll();
+
+    public List<Medicine> listAll() {
+        return medicineRepository.findAll();
     }
 }
-
