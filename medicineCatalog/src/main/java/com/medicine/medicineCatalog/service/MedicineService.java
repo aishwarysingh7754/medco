@@ -22,7 +22,7 @@ public class MedicineService {
         return medicineRepository.findByCategory(category);
     }
 
-    public Optional<Medicine> get(Long id) {
+    public Optional<Medicine> findById(Long id) {
         return medicineRepository.findById(id);
     }
 

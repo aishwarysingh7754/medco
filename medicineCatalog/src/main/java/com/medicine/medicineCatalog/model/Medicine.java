@@ -14,17 +14,19 @@ public class Medicine {
 	private String description;
 	private Double price;
 	private String category;
+	private String imageUrl;
 
 	public Medicine() {
 		super();
 	}
 
-	public Medicine(Long id, String name, String description, Double price, String category) {
+	public Medicine(Long id, String name, String description, Double price, String category, String imageUrl) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.category = category;
+		this.imageUrl = imageUrl;
 	}
 
 	public Long getId() {
@@ -65,6 +67,14 @@ public class Medicine {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }
