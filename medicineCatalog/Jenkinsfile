@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven_3.9.9'
+    }
+    stages{
+        stage('Build Maven'){
+            steps{
+                checkout scmGit(branches: [[name: '*/development']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/harshsinhaprince/medco']])
+                dir('medicineCatalog') {
+                    bat 'mvn package'
+                }
+            }
+        }
+        stage('Build docker image'){
+            steps{
+                script{
+                    dir('medicineCatalog'){
+                        bat 'docker build -t aish7754/medicine-catalog .'
+                    }
+                }
+                
+            }
+        }
+        stage('Push image to docker hub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerpwd')]) {
+                     bat 'echo %dockerpwd%|docker login -u aish7754 --password-stdin'
+}
+                    bat 'docker push aish7754/medicine-catalog'
+                }
+            }
+        }
+    }
+}
