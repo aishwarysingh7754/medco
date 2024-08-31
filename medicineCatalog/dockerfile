@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the executable jar file to the container
-COPY target/medicine-catalog-0.0.1-SNAPSHOT.jar app.jar
+COPY target/medicine-catalog-0.0.1-SNAPSHOT.jar.original app.jar
 
 # Expose the port your Spring Boot app runs on
 EXPOSE 8081
